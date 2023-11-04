@@ -34,7 +34,7 @@ int isDigitW(wchar_t text) {
 int mx = 0, my = 0;
 
 
-void GRID::GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPARAM wParam){
+bool GRID::GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPARAM wParam){
     bool tellIfSuc = true;
 
     wstring Rnum;
@@ -175,7 +175,7 @@ void GRID::GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPA
     }
     
     if (tellIfSuc == false) {
-        MessageBox(hDlg, L"Error:C0002 Type error.", L"Error", MB_OK);
+        return false;
     }
     else {
         int tmpRVal = stoi(Rnum);
@@ -213,13 +213,13 @@ void GRID::GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPA
             default:
                 break;
             }
-            EndDialog(hDlg, LOWORD(wParam));
         }
         else {
             tellIfSuc = false;
-            MessageBox(hDlg, L"Error:C0002 Type error.", L"Error", MB_OK);
+            return false;
         }
     }
+    return true;
 }
 
 int GRID::StoreSizeData(int row_num, int col_num) {

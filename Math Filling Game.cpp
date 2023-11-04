@@ -416,33 +416,40 @@ INT_PTR CALLBACK SC_SelfDef(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
         
         return (INT_PTR)TRUE;
 
-    }break;
+    }//break;
 
     case WM_COMMAND: {
         if (LOWORD(wParam) == IDOK)
         {
+
             if (GetUsefulWindowText(hDlg, IDC_SCFR_EDIT, X_SCFR_textlong, X_SCFR_text) == 0
                 && GetUsefulWindowText(hDlg, IDC_SCTFI_EDIT, X_SCTFI_textlong, X_SCTFI_text) == 0
                 && GetUsefulWindowText(hDlg, IDC_SCFFI_EDIT, X_SCFFI_textlong, X_SCFFI_text) == 0
-                && GetUsefulWindowText(hDlg, IDC_SCBKG_EDIT, X_SCBKG_textlong, X_SCBKG_text) == 0) {
-                X_B_grid.GetUserTypeRGBVal(X_SCFR_text, X_SCFR_textlong, 1, hDlg, wParam);
-                X_B_grid.GetUserTypeRGBVal(X_SCTFI_text, X_SCTFI_textlong, 2, hDlg, wParam);
-                X_B_grid.GetUserTypeRGBVal(X_SCFFI_text, X_SCFFI_textlong, 3, hDlg, wParam);
-                X_B_grid.GetUserTypeRGBVal(X_SCBKG_text, X_SCBKG_textlong, 0, hDlg, wParam);
+                && GetUsefulWindowText(hDlg, IDC_SCBKG_EDIT, X_SCBKG_textlong, X_SCBKG_text) == 0
+                && X_B_grid.GetUserTypeRGBVal(X_SCFR_text, X_SCFR_textlong, 1, hDlg, wParam)
+                && X_B_grid.GetUserTypeRGBVal(X_SCTFI_text, X_SCTFI_textlong, 2, hDlg, wParam)
+                && X_B_grid.GetUserTypeRGBVal(X_SCFFI_text, X_SCFFI_textlong, 3, hDlg, wParam)
+                && X_B_grid.GetUserTypeRGBVal(X_SCBKG_text, X_SCBKG_textlong, 0, hDlg, wParam)) {
+                
                 X_B_grid.RemainAll(X_M_win_rect, X_Mid_x, X_Mid_y, X_Mid_ESSL);
+                EndDialog(hDlg, LOWORD(wParam));
+                return (INT_PTR)TRUE;
             }
             else {
                 MessageBox(hDlg, L"Error:C0002 Type error.", L"Error", MB_OK);
+                EndDialog(hDlg, LOWORD(wParam));
             }
             
-            return (INT_PTR)TRUE;
+            
         }
         if (LOWORD(wParam) == IDCANCEL) {
             EndDialog(hDlg, LOWORD(wParam));
-            return (INT_PTR)TRUE;
+            //delete X_SCFR_text, X_SCTFI_text, X_SCFFI_text, X_SCBKG_text;
+
+            //return (INT_PTR)TRUE;
         }
 
-    }break;
+    }//break;
     
     }
     return (INT_PTR)FALSE;
@@ -508,7 +515,7 @@ INT_PTR CALLBACK SizeChange(HWND hDlg, UINT message, WPARAM wParam, LPARAM lPara
             else {
                 MessageBox(hDlg, L"Error:C0002 Type error.", L"Error", MB_OK);
             }
-            return (INT_PTR)TRUE;
+            return (INT_PTR)FALSE;
         }
         if (LOWORD(wParam) == IDCANCEL) {
             EndDialog(hDlg, LOWORD(wParam));
