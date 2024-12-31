@@ -216,7 +216,7 @@ void GRID::RemainPos(int Now_x, int Now_y, int Now_ESSL) {
 	this->y = Now_y;
 	this->each_square_sidelength = Now_ESSL;
 	RECT decorater = { rect_arr[0][0].left - 1,rect_arr[0][0].top - 1,rect_arr[this->rows - 1][this->cols - 1].right + 1,rect_arr[this->rows - 1][this->cols - 1].bottom + 1 };
-	FillRect(this->hdc, &decorater, this->color_cmd.color_frame);
+	FrameRect(this->hdc, &decorater, this->color_cmd.color_frame);
 }
 
 int GRID::GetRows() {
@@ -238,7 +238,7 @@ void GRID::ChangeCols(TO wh_col_num) {
 void GRID::ClearAll() {
 	for (int ii = 0; ii < this->rows; ii++) {
 		for (int jj = 0; jj < this->cols; jj++) {
-			this->Rect_States[ii][jj] = true;
+			this->Rect_States[ii][jj] = false;
 			ShowFalse(ii + 1, jj + 1);
 		}
 	}
@@ -258,6 +258,19 @@ void GRID::RemainAll(RECT NowClientRect, int Now_x, int Now_y, int Now_ESSL) {
 	FillRect(this->hdc, &this->ClientRect, this->BKG_color);
 	RemainPos(Now_x, Now_y, Now_ESSL);
 	RemainStates();
+}
+
+void GRID::initNewSize(RECT NowClientRect, int Now_x, int Now_y, int Now_ESSL){
+	this->ClientRect = NowClientRect;
+	FillRect(this->hdc, &this->ClientRect, this->BKG_color);
+	RemainPos(Now_x, Now_y, Now_ESSL);
+	for (int ii = 0; ii < this->rows; ii++) {
+		for (int jj = 0; jj < this->cols; jj++) {
+			this->Rect_States[ii][jj] = false;
+			FillRect(this->hdc, &this->rect_arr[ii][jj], this->color_cmd.false_color_fill);
+			FrameRect(this->hdc, &this->rect_arr[ii][jj], this->color_cmd.color_frame);
+		}
+	}
 }
 
 const wchar_t* GRID::NowLPCWSTR_RGBVal(int nMsg) {

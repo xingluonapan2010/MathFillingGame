@@ -222,6 +222,8 @@ public:
 	void RemainAll(RECT NowClientRect, int Now_x, int Now_y, int Now_ESSL);
 	//end
 
+	void initNewSize(RECT NowClientRect, int Now_x, int Now_y, int Now_ESSL);
+
 	const wchar_t* NowLPCWSTR_RGBVal(int nMsg);
 	
 

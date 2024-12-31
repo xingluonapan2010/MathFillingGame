@@ -8,7 +8,7 @@
 #define MAX_LOADSTRING 100
 
 //used in WndProc,WM_PAINT
-static bool IfIsFirstPainted = true;
+bool IfIsFirstPainted = true;
 // 全局变量:
 HINSTANCE hInst;                                // 当前实例
 WCHAR szTitle[MAX_LOADSTRING];                  // 标题栏文本
@@ -167,38 +167,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
     switch (message)
     {
-    
+    case WM_CREATE: {
+        //basic grid
+        GRID B_grid;
+        X_B_grid = B_grid;
+        RECT** square = new RECT * [4];
+        for (int i = 0; i < 4; i++) {
+            square[i] = new RECT[3];
+        }
+        X_square = square;
+        GetClientRect(hWnd, &X_M_win_rect);
+        X_Mid_ESSL = (X_M_win_rect.bottom - X_M_win_rect.top) / 6;
+        X_Mid_x = (X_M_win_rect.right - X_M_win_rect.left - X_Mid_ESSL * 3) / 2;
+        X_Mid_y = (X_M_win_rect.bottom - X_M_win_rect.top - X_Mid_ESSL * 4) / 2;
+        X_B_grid.Create(hWnd, square, 4, 3, X_Mid_x, X_Mid_y, X_Mid_ESSL);
+        X_B_grid.Show();
+        X_hdc = GetDC(hWnd);
+        break;
+    }
     case WM_PAINT: {
         PAINTSTRUCT ps;
         BeginPaint(hWnd, &ps);
-        if (IfIsFirstPainted == true) {
-            //basic grid
-            GRID B_grid;
-            X_B_grid = B_grid;
-            RECT** square = new RECT * [4];
-            for (int i = 0; i < 4; i++) {
-                square[i] = new RECT[3];
-            }
-            X_square = square;
-            GetClientRect(hWnd, &X_M_win_rect);
-            X_Mid_ESSL = (X_M_win_rect.bottom - X_M_win_rect.top) / 6;
-            X_Mid_x = (X_M_win_rect.right - X_M_win_rect.left - X_Mid_ESSL * 3) / 2;
-            X_Mid_y = (X_M_win_rect.bottom - X_M_win_rect.top - X_Mid_ESSL * 4) / 2;
-            X_B_grid.Create(hWnd, square, 4, 3, X_Mid_x, X_Mid_y, X_Mid_ESSL);
-            X_B_grid.Show();
-            X_hdc = GetDC(hWnd);
-            IfIsFirstPainted = false;
-        }
-        else {
-
-            GetClientRect(hWnd, &X_M_win_rect);
-            X_Mid_ESSL = (X_M_win_rect.bottom - X_M_win_rect.top) / (X_B_grid.ReturnRowNum() + 2);
-            X_Mid_x = (X_M_win_rect.right - X_M_win_rect.left - X_Mid_ESSL * X_B_grid.ReturnColNum()) / 2;
-            X_Mid_y = (X_M_win_rect.bottom - X_M_win_rect.top - X_Mid_ESSL * X_B_grid.ReturnRowNum()) / 2;
-            X_B_grid.RemainAll(X_M_win_rect, X_Mid_x, X_Mid_y, X_Mid_ESSL);
-            
-        }
-        
+        GetClientRect(hWnd, &X_M_win_rect);
+        X_Mid_ESSL = (X_M_win_rect.bottom - X_M_win_rect.top) / (X_B_grid.ReturnRowNum() + 2);
+        X_Mid_x = (X_M_win_rect.right - X_M_win_rect.left - X_Mid_ESSL * X_B_grid.ReturnColNum()) / 2;
+        X_Mid_y = (X_M_win_rect.bottom - X_M_win_rect.top - X_Mid_ESSL * X_B_grid.ReturnRowNum()) / 2;
+        X_B_grid.RemainAll(X_M_win_rect, X_Mid_x, X_Mid_y, X_Mid_ESSL);
         EndPaint(hWnd, &ps);
     }break;
     case WM_LBUTTONUP: {

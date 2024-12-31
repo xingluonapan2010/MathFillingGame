@@ -27,8 +27,8 @@ int isNotDigitW(wchar_t text) {
 		&& text != L'6' && text != L'7' && text != L'8' && text != L'9');
 }
 int isDigitW(wchar_t text) {
-    return (text == '0' && text == '1' && text == '2' && text == '3' && text == '4' && text == '5'
-        && text == '6' && text == '7' && text == '8' && text == '9');
+    return (text == '0' || text == '1' || text == '2' || text == '3' || text == '4' || text == '5'
+        || text == '6' || text == '7' || text == '8' || text == '9');
 }
 
 int mx = 0, my = 0;
@@ -256,6 +256,6 @@ int GRID::StoreSizeData(int row_num, int col_num) {
     this->x = (ClientRect.right - ClientRect.left - this->each_square_sidelength * ReturnColNum()) / 2;
     this->y = (ClientRect.bottom - ClientRect.top - this->each_square_sidelength * ReturnRowNum()) / 2;
     
-    RemainAll(this->ClientRect, this->x, this->y, this->each_square_sidelength);
+    initNewSize(this->ClientRect, this->x, this->y, this->each_square_sidelength);
     return 0;
 }
