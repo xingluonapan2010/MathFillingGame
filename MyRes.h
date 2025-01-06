@@ -231,7 +231,7 @@ public:
 	# $$@ len: °üÀ¨L'\0'£¨½áÎ²·û£©
 	# EndDialog() is included
 	*/
-	void GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPARAM wParam);
+	bool GetUserTypeRGBVal(wchar_t* wh_text, int len, int nMsg, HWND hDlg, WPARAM wParam);
 
 	int StoreSizeData(int row_num, int col_num);
 
